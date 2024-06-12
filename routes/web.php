@@ -1,10 +1,11 @@
 <?php
 use App\Http\Controllers\PagesController;
 use App\Repositories\UserRepository;
+use App\Services\Twitter;
 
-Route::get('/', function (UserRepository $users){
+Route::get('/', function (Twitter $twitter) {
     
-    dd($users);
+    dd($twitter);
 
     $tasks = [
         'Do the dumb things I gotta do',
