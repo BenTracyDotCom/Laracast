@@ -5,6 +5,11 @@
 <head>
 
     <title>@yield('title', 'Site for Cool Dudes')</title>
+    <style type="text/css">
+        .is-complete {
+            text-decoration: line-through
+        }
+    </style>
 
 </head>
 

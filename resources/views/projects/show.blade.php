@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('content')
+
 <h1>{{ $project->title }}</h1>
 <p>{{$project->description }}</p>
 @if($project->tasks->count())
@@ -12,10 +13,12 @@
                 @method('DELETE')
                     @endif
                     @csrf
-                        <div>
-                            <input type="checkbox" name="completed" onChange="this.form.submit()" {{ $task->completed ? 'checked' : ''}}>
-                            {{ $task->description }}
-                        </div>
+                        <label class="checkbox {{ $task->completed ? "is-complete" : "" }}" for="completed">
+                            <div>
+                                <input type="checkbox" name="completed" onChange="this.form.submit()" {{ $task->completed ? 'checked' : ''}}>
+                                {{ $task->description }}
+                            </div>
+                        </label>
                 </form>
             </div>
         @endforeach
