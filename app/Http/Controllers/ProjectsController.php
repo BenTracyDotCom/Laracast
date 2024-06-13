@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\Mail\ProjectCreated;
 use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
@@ -13,13 +14,13 @@ class ProjectsController extends Controller
     }
     public function index()
     {
-        $projects = Project::where("owner_id", auth()->id())->get();
-
-        return view('projects.index', compact('projects'));
+        return view('projects.index', [
+            'projects' => auth()->user()->projects,
+        ]);
     }
 
     public function create()
-    {     
+    {
         return view('projects.create');
     }
     public function show(Project $project)
@@ -31,13 +32,14 @@ class ProjectsController extends Controller
 
     public function store()
     {
-        $attributes = request()->validate([
-            'title'=> ['required','min:3'],
-            'description'=> ['required','min:3'],
-        ]);
+        $attributes = $this->validateProject();
         $attributes['owner_id'] = auth()->id();
 
-        Project::create($attributes);
+        $project = Project::create($attributes);
+
+        \Mail::to('b.rob.tracy@gmail.com')->send(
+            new ProjectCreated($project)
+        );
 
         return redirect('/projects');
     }
@@ -45,20 +47,33 @@ class ProjectsController extends Controller
 
     public function edit(Project $project)
     {
+
         $this->authorize('update', $project);
         return view('projects.edit', compact('project'));
     }
-    public function update(Request $request, Project $project){
+    public function update(Request $request, Project $project)
+    {
         $this->authorize('update', $project);
 
-        $project->update(request(['title','description']));
-   
+        $this->validateProject();
+
+        $project->update(request(['title', 'description']));
+
         return redirect('/projects');
     }
 
-    public function destroy(Project $project){
+    public function destroy(Project $project)
+    {
         $this->authorize('update', $project);
         $project->delete();
         return redirect('/projects');
+    }
+
+    protected function validateProject()
+    {
+        return request()->validate([
+            'title' => ['required', 'min:3'],
+            'description' => ['required', 'min:3'],
+        ]);
     }
 }
