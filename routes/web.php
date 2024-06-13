@@ -4,8 +4,6 @@ use App\Repositories\UserRepository;
 use App\Services\Twitter;
 
 Route::get('/', function (Twitter $twitter) {
-    
-    dd($twitter);
 
     $tasks = [
         'Do the dumb things I gotta do',
@@ -13,7 +11,7 @@ Route::get('/', function (Twitter $twitter) {
         'Go to work'
     ];
 
-    return view('welcome')->withFoo('Welcome!')->withTasks( $tasks );
+    return view('welcome')->withFoo('Welcome!')->withTasks($tasks);
 });
 
 Route::get('/about', 'PagesController@about');

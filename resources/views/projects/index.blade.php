@@ -18,6 +18,8 @@
         </a>
     @endforeach
 
+    <a href="/projects/create">Add a project</a>
+
 </body>
 
 
