@@ -2,11 +2,16 @@
 
 namespace App;
 
+use App\Events\ProjectCreated;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
     protected $guarded = [];
+
+    protected $dispatchesEvents = [
+        'created' => ProjectCreated::class,
+    ];
 
     public function tasks()
     {
