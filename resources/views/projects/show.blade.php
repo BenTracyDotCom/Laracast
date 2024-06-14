@@ -3,6 +3,11 @@
 @section('content')
 
 <h1>{{ $project->title }}</h1>
+
+@can('update', $project)
+    <a href="">Update</a>
+@endcan
+
 <p>{{$project->description }}</p>
 @if($project->tasks->count())
     <div>

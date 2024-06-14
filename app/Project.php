@@ -13,7 +13,7 @@ class Project extends Model
         'created' => ProjectCreated::class,
     ];
 
-    public function tasks()
+    public function tasks(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Task::class);
     }
@@ -23,7 +23,7 @@ class Project extends Model
         $this->tasks()->create($task);
     }
 
-    public function owner()
+    public function owner(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
     }
